@@ -1,22 +1,59 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './components/Login';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import FriendsList from './components/FriendsList';
+import FriendInfo from './components/FriendInfo';
+import React, {useState} from 'react';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
+
+  const [ friends, setFriends ] = useState([])
+  const [ showAddFriend, setShowAddFriend ] = useState(false)
+
+  const logout = () => {
+
+    localStorage.removeItem('token')
+    window.location.href = '/login'
+
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Router>
+
+          <NavBar
+            logout={logout}
+            showAddFriend={showAddFriend}
+            setShowAddFriend={setShowAddFriend}
+            />
+
+          <Switch>
+
+            <Route path= "/login">
+              <Login />
+            </Route>
+
+            <PrivateRoute exact path ="/friends"
+              component ={() => <FriendsList
+              showAddFriend={showAddFriend}
+              friends={friends}
+              setFriends={setFriends}
+              />}
+            />
+
+            <PrivateRoute
+              path='/friends/:id'
+              children={<FriendInfo friends={friends}/>}
+            />
+            
+          </Switch>
+          
+        </Router>
+          
+            
       </header>
     </div>
   );
