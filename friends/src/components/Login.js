@@ -9,6 +9,7 @@ const initialForm = {
 function Login(props) {
 
     const [ formValues, setFormValues ] = useState(initialForm)
+    const history = useHistory();
 
     const loginButton = (e) => {
         e.preventDefault();
