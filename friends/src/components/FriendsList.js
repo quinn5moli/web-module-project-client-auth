@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import Friend from './Friend';
+import AddFriend from './AddFriend';
 
 function FriendsList(props) {
     
-    const { friends, setFriends } = props
+    const { friends, setFriends, showAddFriend } = props
 
     useEffect(() => {
         axiosWithAuth()
@@ -26,7 +27,7 @@ function FriendsList(props) {
 
             {showAddFriend === true ? <AddFriend {...props}/> : ""}
 
-            {friends. map (friend => {
+            {friends.map(friend => {
                 return (
                     <Friend
                         key={friend.id}
